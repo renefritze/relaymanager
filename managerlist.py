@@ -13,7 +13,7 @@ class Main(IPlugin):
 	    if args[1].lower() == "!listmanagers":
 	      socket.send("SAYPRIVATE %s managerlist %s\n" % ( args[0] , '\t'.join(parselist(self.app.config["managerlist"],','))))
 	    if args[1].lower() == "!lm":
-	      socket.send("SAYPRIVATE %s %s\n" % ( args[0] , '\t'.join(parselist(self.app.config["managerlist"],','))))
+	      socket.send("SAYPRIVATE %s managerlist %s\n" % ( args[0] , '\t'.join(parselist(self.app.config["managerlist"],','))))
 	    if args[1].lower() == "!addmanager" and args[0] in parselist(self.app.config["admins"],',') and len(args) >= 3:
 	      cmns = parselist(self.app.config["managerlist"],',')
 	      if args[2] in cmns:
@@ -44,3 +44,4 @@ class Main(IPlugin):
 	  self.app = tasc.main
 	def onloggedin(self,socket):
 	  socket.send("JOIN autohost\n")
+
