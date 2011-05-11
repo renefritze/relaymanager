@@ -7,8 +7,7 @@ class Main(IPlugin):
 	def __init__(self,name,tasclient):
 		IPlugin.__init__(self,name,tasclient)
 	def onload(self,tasc):
-		pass
-
+		self.app = tasc.main
 	def oncommandfromserver(self,command,args,socket):
 		if command == "SAIDPRIVATE" and len(args) >= 2:
 			if args[1].lower() == "!listmanagers":
@@ -33,8 +32,6 @@ class Main(IPlugin):
 		self.app.config["managerlist"] = ','.join(cmns)
 		self.app.SaveConfig()
 		socket.send("SAYPRIVATE %s %s\n" % ( args[0] , "Manager removed"))
-	def onload(self,tasc):
-		self.app = tasc.main
 	def onloggedin(self,socket):
 		socket.send("JOIN autohost\n")
 
