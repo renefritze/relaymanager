@@ -5,7 +5,7 @@ from tasbot.Plugin import IPlugin
 from tasbot.utilities import *
 class Main(IPlugin):
 	def __init__(self,name,tasclient):
-	    IPlugin.__init__(self,name,tasclient)
+		IPlugin.__init__(self,name,tasclient)
 	def onload(self,tasc):
 		pass
 
@@ -29,7 +29,7 @@ class Main(IPlugin):
 			if not args[2] in cmns:
 				socket.send("SAYPRIVATE %s %s\n" % ( args[0] , "Manager doesn't exist in list"))
 			else:
-                cmns.remove(args[2])
+				cmns.remove(args[2])
 		self.app.config["managerlist"] = ','.join(cmns)
 		self.app.SaveConfig()
 		socket.send("SAYPRIVATE %s %s\n" % ( args[0] , "Manager removed"))
