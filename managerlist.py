@@ -31,14 +31,6 @@ class Main(IPlugin):
 		self.app.config["managerlist"] = ','.join(cmns)
 		self.app.SaveConfig()
 		socket.send("SAYPRIVATE %s %s\n" % ( args[0] , "Manager removed"))
-	  if command == "CLIENTSTATUS" and len(args) == 2:
-	    if getmod(int(args[1])) == 1:
-	      cmns = tasbot.ParseConfig.parselist(self.app.config["admins"],',')
-	      if not args[0] in cmns:
-		cmns.append(args[0])
-		self.app.config["admins"] = ','.join(cmns)
-		self.app.SaveConfig()
-		print purple+"** Added "+green+args[0]+purple+" to admin list"+normal
 	def onload(self,tasc):
 	  self.app = tasc.main
 	def onloggedin(self,socket):
