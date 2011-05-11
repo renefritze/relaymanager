@@ -3,6 +3,7 @@ from colors import *
 import string
 import time, datetime
 import tasbot
+from tasbot.utilities import *
 def elapsed_time(seconds, suffixes=['y','w','d','h','m','s'], add_s=False, separator=' '):
 	"""
 	Takes an amount of seconds and turns it into a human-readable amount of time.

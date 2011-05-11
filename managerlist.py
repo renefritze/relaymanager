@@ -2,7 +2,7 @@ from colors import *
 import string
 import tasbot
 from tasbot.Plugin import IPlugin
-
+from tasbot.utilities import *
 class Main(IPlugin):
         def __init__(self,name,tasclient):
                 IPlugin.__init__(self,name,tasclient)
