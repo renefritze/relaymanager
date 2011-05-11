@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from colors import *
-import string
 import time, datetime
 import tasbot
 from tasbot.utilities import *
@@ -46,7 +44,6 @@ from tasbot.Plugin import IPlugin
 class Main(IPlugin):
 	def __init__(self,name,tasclient):
 		IPlugin.__init__(self,name,tasclient)
-
 		self.slavetomanager = dict()
 		self.slavetousagecount = dict()
 		self.slavetoingamecount = dict()
