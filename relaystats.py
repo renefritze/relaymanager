@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from colors import *
-from ParseConfig import *
 from utilities import *
 import string
 import time, datetime
+import tasbot
 def elapsed_time(seconds, suffixes=['y','w','d','h','m','s'], add_s=False, separator=' '):
 	"""
 	Takes an amount of seconds and turns it into a human-readable amount of time.
@@ -33,7 +33,7 @@ def elapsed_time(seconds, suffixes=['y','w','d','h','m','s'], add_s=False, separ
 			break
 
 	return separator.join(time)
-	
+
 bstr_nonneg = lambda n: n>0 and bstr_nonneg(n>>1).lstrip('0')+str(n&1) or '0'
 class UserStatus:
 	def __init__(self, status, nick ):
@@ -57,7 +57,7 @@ class Main(IPlugin):
 	def onload(self,tasc):
 		self.app = tasc.main
 		self.tasc = tasc
-		self.managerlist = parselist(self.app.config["managerlist"],',')
+		self.managerlist = tasbot.ParseConfig.parselist(self.app.config["managerlist"],',')
 		self.loadStats()
 	def oncommandfromserver(self,command,args,socket):
 		if command == "SAIDPRIVATE" and len(args) > 1 and args[1] == "!stats":
@@ -94,7 +94,7 @@ class Main(IPlugin):
 								(args[0], slavename, slavetousagecount[managername], ingame ) )
 		if command == "SAID" and len(args) > 4 and args[0] == "autohost":
 			sender = args[1]
-			self.managerlist = parselist(self.app.config["managerlist"],',')
+			self.managerlist = tasbot.ParseConfig.parselist(self.app.config["managerlist"],',')
 			if sender in self.managerlist and args[2] == "Spawning":
 				botname = args[len(args)-1]
 				self.slavetomanager[botname] = sender
@@ -139,3 +139,4 @@ class Main(IPlugin):
 			statsfile.write( "slavetoingamecount\t" + key + "\t" + str(value) + "\n" )
 		statsfile.flush()
 		statsfile.close()
+
