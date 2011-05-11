@@ -12,7 +12,7 @@ class Main(IPlugin):
 			if args[1].lower() == "!listmanagers":
 				socket.send("SAYPRIVATE %s managerlist %s\n" % ( args[0] , '\t'.join(tasbot.ParseConfig.parselist(self.app.config["managerlist"],','))))
 			elif args[1].lower() == "!lm":
-				socket.send("SAYPRIVATE %s list %s\n" % ( args[0] , '\t'.join(parselist(self.app.config["managerlist"],','))))
+				socket.send("SAYPRIVATE %s list %s\n" % ( args[0] , '\t'.join(tasbot.ParseConfig.parselist(self.app.config["managerlist"],','))))
 			elif args[0] in tasbot.ParseConfig.parselist(self.app.config["admins"],',') and len(args) >= 3:
 				cmns = tasbot.ParseConfig.parselist(self.app.config["managerlist"],',')
 				if args[1].lower() == "!addmanager":
