@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from colors import *
-from utilities import *
 import string
 import time, datetime
 import tasbot

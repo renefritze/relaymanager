@@ -1,6 +1,5 @@
 from colors import *
 import string
-from utilities import *
 import tasbot
 from tasbot.Plugin import IPlugin
 
