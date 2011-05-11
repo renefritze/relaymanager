@@ -47,12 +47,12 @@ class Main(IPlugin):
 		def __init__(self,name,tasclient):
 			IPlugin.__init__(self,name,tasclient)
 
-		self.slavetomanager = dict()
-		self.slavetousagecount = dict()
-		self.slavetoingamecount = dict()
-		self.battlestartingtime = dict()
-		self.managerlist = []
-		self.statsfilename = "relaystats.txt"
+			self.slavetomanager = dict()
+			self.slavetousagecount = dict()
+			self.slavetoingamecount = dict()
+			self.battlestartingtime = dict()
+			self.managerlist = []
+			self.statsfilename = "relaystats.txt"
 	def onload(self,tasc):
 		self.app = tasc.main
 		self.tasc = tasc
