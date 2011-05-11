@@ -45,8 +45,8 @@ class UserStatus:
 from tasbot.Plugin import IPlugin
 
 class Main(IPlugin):
-        def __init__(self,name,tasclient):
-                IPlugin.__init__(self,name,tasclient)
+		def __init__(self,name,tasclient):
+				IPlugin.__init__(self,name,tasclient)
 
 		self.slavetomanager = dict()
 		self.slavetousagecount = dict()
