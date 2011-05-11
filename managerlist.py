@@ -1,5 +1,4 @@
 from colors import *
-from ParseConfig import *
 import string
 from utilities import *
 import tasbot
