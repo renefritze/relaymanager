@@ -49,7 +49,10 @@ class Main(IPlugin):
 		self.slavetoingamecount = dict()
 		self.battlestartingtime = dict()
 		self.managerlist = []
-		self.statsfilename = "relaystats.txt"
+		try:
+			self.statsfilename = os.path.join( self.app.config["cfg_dir"],"relaystats.txt")
+		except:
+			self.statsfilename = "relaystats.txt"
 	def onload(self,tasc):
 		self.app = tasc.main
 		self.tasc = tasc
