@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
-import time, datetime
+import time
+import datetime
+
 import tasbot
 from tasbot.utilities import *
+from tasbot.plugin import IPlugin
+
+
 def elapsed_time(seconds, suffixes=['y','w','d','h','m','s'], add_s=False, separator=' '):
 	"""
 	Takes an amount of seconds and turns it into a human-readable amount of time.
@@ -31,6 +36,7 @@ def elapsed_time(seconds, suffixes=['y','w','d','h','m','s'], add_s=False, separ
 
 	return separator.join(time)
 
+
 bstr_nonneg = lambda n: n>0 and bstr_nonneg(n>>1).lstrip('0')+str(n&1) or '0'
 class UserStatus:
 	def __init__(self, status, nick ):
@@ -39,7 +45,6 @@ class UserStatus:
 		self.nick = nick
 		self.decimal = int(status)
 
-from tasbot.Plugin import IPlugin
 
 class Main(IPlugin):
 	def __init__(self,name,tasclient):
@@ -50,14 +55,16 @@ class Main(IPlugin):
 		self.battlestartingtime = dict()
 		self.managerlist = []
 		try:
-			self.statsfilename = os.path.join( self.app.config["cfg_dir"],"relaystats.txt")
-		except:
+			self.statsfilename = os.path.join( self.app.config.get('tasbot',"cfg_dir"),"relaystats.txt")
+		except Exception:
 			self.statsfilename = "relaystats.txt"
+
 	def onload(self,tasc):
 		self.app = tasc.main
 		self.tasc = tasc
-		self.managerlist = tasbot.ParseConfig.parselist(self.app.config["managerlist"],',')
+		self.managerlist = self.app.config.get_optionlist('relaymanager', "managerlist")
 		self.loadStats()
+
 	def oncommandfromserver(self,command,args,socket):
 		if command == "SAIDPRIVATE" and len(args) > 1 and args[1] == "!stats":
 			if len(args) > 3:
@@ -93,7 +100,7 @@ class Main(IPlugin):
 								(args[0], slavename, slavetousagecount[managername], ingame ) )
 		if command == "SAID" and len(args) > 4 and args[0] == "autohost":
 			sender = args[1]
-			self.managerlist = tasbot.ParseConfig.parselist(self.app.config["managerlist"],',')
+			self.managerlist = self.app.config.get_optionlist('relaymanager', "managerlist")
 			if sender in self.managerlist and args[2] == "Spawning":
 				botname = args[len(args)-1]
 				self.slavetomanager[botname] = sender
@@ -115,27 +122,27 @@ class Main(IPlugin):
 				self.saveStats()
 			if ingame and not slavename in self.battlestartingtime:
 				self.battlestartingtime[slavename] = now
-	def loadStats( self ):
-		statsfile = open(self.statsfilename,'r')
-		content = statsfile.read()
-		entries = content.split("\n")
-		for line in entries:
-			data = line.split("\t")
-			if data[0] == "slavetomanager":
-				self.slavetomanager[data[1]] = data[2]
-			if data[0] == "slavetousagecount":
-				self.slavetousagecount[data[1]] = int(data[2])
-			if data[0] == "slavetoingamecount":
-				self.slavetoingamecount[data[1]] = float(data[2])
-		statsfile.close()
-	def saveStats( self ):
-		statsfile = open(self.statsfilename,'w')
-		for key,value in self.slavetomanager.items():
-			statsfile.write( "slavetomanager\t" + key + "\t" + str(value) + "\n" )
-		for key,value in self.slavetousagecount.items():
-			statsfile.write( "slavetousagecount\t" + key + "\t" + str(value) + "\n" )
-		for key,value in self.slavetoingamecount.items():
-			statsfile.write( "slavetoingamecount\t" + key + "\t" + str(value) + "\n" )
-		statsfile.flush()
-		statsfile.close()
 
+	def onexit(self):
+		self.saveStats()
+
+	def loadStats( self ):
+		createFileIfMissing(self.statsfilename)
+		with open(self.statsfilename,'r') as statsfile:
+			for line in statsfile.readlines():
+				data = line.split("\t")
+				if data[0] == "slavetomanager":
+					self.slavetomanager[data[1]] = data[2]
+				if data[0] == "slavetousagecount":
+					self.slavetousagecount[data[1]] = int(data[2])
+				if data[0] == "slavetoingamecount":
+					self.slavetoingamecount[data[1]] = float(data[2])
+
+	def saveStats( self ):
+		with open(self.statsfilename,'wb') as statsfile:
+			for key,value in self.slavetomanager.items():
+				statsfile.write( "slavetomanager\t" + key + "\t" + str(value) + "\n" )
+			for key,value in self.slavetousagecount.items():
+				statsfile.write( "slavetousagecount\t" + key + "\t" + str(value) + "\n" )
+			for key,value in self.slavetoingamecount.items():
+				statsfile.write( "slavetoingamecount\t" + key + "\t" + str(value) + "\n" )
