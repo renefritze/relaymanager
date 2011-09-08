@@ -1,6 +1,6 @@
 import string
 helptext = "Relayed Host Bot\n Documentation is at http://springlobby.info/wiki/1/HostManagerProtocol"
-from tasbot.Plugin import IPlugin
+from tasbot.plugin import IPlugin
 
 class Main(IPlugin):
         def __init__(self,name,tasclient):
