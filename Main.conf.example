@@ -1,0 +1,15 @@
+[tasbot]
+serverport = 8200
+serveraddr = springrts.com
+nick = NICK
+password = PASSWORD
+admins = BrainDamage,_koshi_
+plugins = managerlist,relaystats
+cfg_dir = $CWD
+logfile = $HOME/logs/relay_manager.log
+pidfile = $HOME/pids/relay_manager.pid
+debug = 1
+
+[relaymanager]
+managerlist = ,SLrelayMaster,[fi]Relaymaster,SpringRTSRelayMaster,AUrelayhost,[V]RelayMaster
+
