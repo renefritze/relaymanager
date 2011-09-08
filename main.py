@@ -19,7 +19,7 @@ if __name__=="__main__":
 	pidfile = config.get('tasbot','pidfile','relaymanager.pid')
 	print 'using pidfile %s'%pidfile
 	inst = tasbot.DefaultApp(configfile,pidfile,r,True)
-	if bool(config.get( 'tasbot','debug', False )):
+	if int(config.get( 'tasbot','debug', 0 )):
 		inst.run()#exec in fg
 	else:
 		inst.start()
